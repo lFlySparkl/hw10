@@ -65,8 +65,12 @@ class Record:
 
     def edit_phone(self, old_number, new_number):
         if old_number in self.phones:
-            target_index = self.phones(old_number)
-            self.phones[target_index] = new_number
+            idx = ""
+            for number in self.phones:
+                if number == old_number:
+                    idx = self.phones.index(number)
+            self.phones[idx] = new_number
+                
         else:
             raise ValueError
 
@@ -99,11 +103,7 @@ class AddressBook(UserDict):
     #  3. Провалена перевірка. Метод delete класу AddressBook не видалив запис!
 
     def add_record(self, contact:Record):
-        self.data = {contact.name : contact.phones}
-        # self.data[contact.name]= contact.phones
-        for i in self.data:
-            print(i, self.data[i])
-        return self.data
+        self.data[contact.name.value] = contact
 
     def find(self, name):
         if name in self.data:
@@ -126,17 +126,17 @@ if __name__ == "__main__":
     john_record.add_phone("1234567890")
     john_record.add_phone("5555555555")
 
-    # Додавання запису John до адресної книги
+    # # Додавання запису John до адресної книги
     book.add_record(john_record)
 
-    # Створення та додавання нового запису для Jane
-    jane_record = Record("Jane")
-    jane_record.add_phone("9876543210")
-    book.add_record(jane_record)
+    # # Створення та додавання нового запису для Jane
+    # jane_record = Record("Jane")
+    # jane_record.add_phone("9876543210")
+    # book.add_record(jane_record)
 
-    # Виведення всіх записів у книзі
-    for name, record in book.data.items():
-        print(record)
+    # # Виведення всіх записів у книзі
+    # for name, record in book.data.items():
+    #     print(record)
 
     # Знаходження та редагування телефону для John
     john = book.find("John")
